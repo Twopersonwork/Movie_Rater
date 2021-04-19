@@ -28,6 +28,8 @@ class MovieList extends Component {
     return (
       <div>
         <h1>Hii</h1>
+        <h1>Hello</h1>
+        <h1>World</h1>
         <Container className="pl-3">
           {this.state.movies.map((movie) => (
             <MovieContainer movie={movie} />

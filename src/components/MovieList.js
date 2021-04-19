@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container} from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import MovieContainer from "./MovieContainer";
 import Fuse from "fuse.js";
 
@@ -9,15 +9,15 @@ class MovieList extends Component {
 
     this.state = {
       movies: [],
-      matches:[],
-      search:"",
+      matches: [],
+      search: "",
     };
   }
 
   componentDidMount() {
-    console.log(this.props.searchkeyword)
-    if(this.props.searchkeyword.length>0){
-      this.setState({search:this.props.searchkeyword})
+    console.log(this.props.searchkeyword);
+    if (this.props.searchkeyword.length > 0) {
+      this.setState({ search: this.props.searchkeyword });
     }
     fetch("http://127.0.0.1:8000/api/movies/", {
       method: "GET",
@@ -27,28 +27,30 @@ class MovieList extends Component {
       },
     })
       .then((resp) => resp.json())
-      .then((res) => this.setState({ movies: res },function(){
-        const fuse = new Fuse(this.state.movies, {
-          keys: ["Title"],
-        });
-        const result = fuse.search(this.state.search);
-
-        if (!result.length) {
-          this.setState([]);
-        } else {
-          result.forEach(({item}) => {
-            this.state.matches.push(item);
+      .then((res) =>
+        this.setState({ movies: res }, function () {
+          const fuse = new Fuse(this.state.movies, {
+            keys: ["Title"],
           });
-          this.setState({movies:this.state.matches});
-        }
-      }))
+          const result = fuse.search(this.state.search);
+
+          if (!result.length) {
+            this.setState([]);
+          } else {
+            result.forEach(({ item }) => {
+              this.state.matches.push(item);
+            });
+            this.setState({ movies: this.state.matches });
+          }
+        })
+      )
       .catch((error) => console.log(error));
   }
 
   render() {
     return (
       <div>
-        <h1>Hello Django</h1>
+        <h1>Hello Django Rest</h1>
         <h2>Hello react</h2>
         <Container className="pl-3">
           {this.state.movies.map((movie) => (

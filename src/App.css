@@ -1,0 +1,31 @@
+.forText {
+    font-size: small;
+    margin-left: 5px;
+}
+ 
+
+.breakpoint { /* One column for smartphones */
+    max-width: 100%;
+    display: inline-block;
+  }
+  @media (min-width:200px){
+      .breakpoint{
+          max-width: 40%;
+      }
+  }
+  @media (min-width:240px){
+    .breakpoint{
+        max-width: 40%;
+    }
+  }
+
+  @media (min-width: 420px) { /* Two columns for tablets */
+    .breakpoint {
+      max-width: 30%;
+    }
+  }
+  @media (min-width: 760px) { /* Four columns for large devices */
+    .breakpoint {
+      max-width: 24%;
+    }
+  }

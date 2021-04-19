@@ -27,6 +27,7 @@ class MovieList extends Component {
   render() {
     return (
       <div>
+        <h1>Hello World</h1>
         <Container className="pl-3">
           {this.state.movies.map((movie) => (
             <MovieContainer movie={movie} />

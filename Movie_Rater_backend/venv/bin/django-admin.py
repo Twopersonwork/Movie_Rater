@@ -1,4 +1,4 @@
-#!/home/prachi/workspace/IMDB_project/Movie_Rater/venv/bin/python3
+#!/home/prachi/workspace/Movie_Rater/Movie_Rater_backend/venv/bin/python3
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

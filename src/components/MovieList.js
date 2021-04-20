@@ -51,6 +51,7 @@ class MovieList extends Component {
     return (
       <div>
         <h1>Hello Django Heroku</h1>
+        <h1>Prachi</h1>
         <h1>Hello Django Rest</h1>
         <h2>Hello react</h2>
         <Container className="pl-3">

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { Card, CardImg, Button, Row } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 class MovieContainer extends Component {
   render() {
     const movie = this.props.movie;
     return (
+      // This is for how to display each movie on Movies page
       <div key={movie.id} className="breakpoint">
         <Card className="m-2">
           <Link to={`/movies/${movie.id}`}>

@@ -7,7 +7,7 @@ from rest_framework.authtoken.models import Token
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-
+# This model is for store the movies in the database
 class Movie(models.Model):
     Poster=models.CharField(max_length=300)
     Title=models.CharField(max_length=70)
@@ -42,6 +42,8 @@ class Movie(models.Model):
         else:
             return 0
 
+
+# Store the rating which user gives on particular movie.
 class Rating(models.Model):
     stars=models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     movie=models.ForeignKey(Movie,on_delete=models.CASCADE)
@@ -51,10 +53,3 @@ class Rating(models.Model):
         # unique_together means same user can not rate the same movie more than one
         unique_together = (('user', 'movie'),)
         index_together = (('user', 'movie'),)
-
-
-
-# @receiver(post_save,sender=settings.AUTH_USER_MODEL)
-# def createAuthToken(sender,instance,created,**kwargs):
-#     if created:
-#         Token.objects.create(user=instance)

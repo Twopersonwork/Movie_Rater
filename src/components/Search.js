@@ -1,18 +1,13 @@
 import React, { Component } from "react";
-import {
-  Navbar,
-  Nav,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button,
-} from "react-bootstrap";
+import { Form, FormControl, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 class Search extends Component {
   render() {
     const { onChange } = this.props;
     return (
       <div>
+        {/* Here simple search form */}
         <Form inline>
           <FormControl
             type="text"
@@ -20,7 +15,10 @@ class Search extends Component {
             className="mr-sm-2"
             onChange={onChange}
           />
-          <Button variant="outline-success">Search</Button>
+          <Link to={'/'}>
+            {/* when you clicked on search button it redirects to the main page. */}
+            <Button variant="outline-success">Search</Button>
+          </Link>
         </Form>
       </div>
     );

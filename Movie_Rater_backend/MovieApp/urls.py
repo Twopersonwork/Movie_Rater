@@ -7,6 +7,7 @@ from .views import MovieViewset, UserViewset,RatingViewset
 
 router = routers.DefaultRouter()
 
+# here we create different router for viewsets.
 router.register('users',UserViewset)
 router.register('movies',MovieViewset)
 router.register('ratings',RatingViewset)

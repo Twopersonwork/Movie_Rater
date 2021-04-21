@@ -7,6 +7,7 @@ from import_export.admin import ImportExportModelAdmin
 from .models import Movie,Rating
 from django.contrib import admin
 
+#create movie admin because we use Import - export for store the movies in database through csv files.
 class moviesadmin(ImportExportModelAdmin):
     pass
 

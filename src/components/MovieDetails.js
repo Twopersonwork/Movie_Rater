@@ -1,16 +1,5 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardImg,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Row,
-  Container,
-  Form,
-  Button,
-} from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Card, Col, Row, Container, Form, Button } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { withCookies } from "react-cookie";
 
@@ -26,10 +15,6 @@ class MovieDetails extends Component {
   }
 
   onSubmit = (stars) => (e) => {
-    // if (!this.state.stars) {
-    //   alert("You must enter stars");
-    //   return;
-    // }
     if (this.state.token) {
       console.log(stars);
 
@@ -59,12 +44,18 @@ class MovieDetails extends Component {
     // console.log("stars", this.state.stars);
     // console.log("token", this.state.token);
   };
+
+  /*
+componentDidMount() will run after the render method and which ever movie user selected ,
+fetch it from the server and store it in movieDetails.
+*/
   componentDidMount() {
+    console.log(this.state.token);
     fetch(`http://127.0.0.1:8000/api/movies/${this.props.match.params.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Token ${this.state.token}`,
+        // Authorization: "Token 6622e38254ac5510944a93a53ae3e5d9f6bf5c17",
       },
     })
       .then((resp) => resp.json())
@@ -92,6 +83,8 @@ class MovieDetails extends Component {
     const movie = this.state.movieDetail;
     return (
       <Container className="mt-2">
+        {/* Here we create card for store the movie poster on left side and all the movie details on
+        the right side of the card. */}
         <Card>
           <Card.Body>
             <Row>
@@ -213,5 +206,5 @@ class MovieDetails extends Component {
     );
   }
 }
-
+// for using cookies we have to export component like this.
 export default withCookies(MovieDetails);

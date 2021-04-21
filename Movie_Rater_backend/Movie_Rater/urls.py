@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from rest_framework.authtoken.views import obtain_auth_token
+# from rest_framework.authtoken.views import obtain_auth_token
+from MovieApp.views import CustomAuthToken
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include('MovieApp.urls')),
-    path('auth/',obtain_auth_token)
+    path('auth/',CustomAuthToken.as_view())    
 ]

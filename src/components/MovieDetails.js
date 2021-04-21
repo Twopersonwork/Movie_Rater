@@ -1,28 +1,31 @@
 import React, { Component } from "react";
 import {
   Card,
-  CardImg,
   Col,
-  ListGroup,
-  ListGroupItem,
   Row,
   Container,
   Form,
   Button,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
+import { withCookies } from "react-cookie";
 
 class MovieDetails extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      movieDetail: {},
-      stars: "",
+      movieDetail: {},    //store the movieDetails for particluar movies
+      stars: "",          //store the stars which user gives.
+      token:this.props.cookies.get("auth-token"),   //get token form particular users from cookies.
     };
   }
 
+  /*
+    This is method execute when user give stars on particular movie and then click submit,
+    so this method will first check that is user logged in ? if not then redirects to the login page.
+    and if user is logged in then for that particular user can give stars or update stars on any movies.
+  */
   onSubmit = (e) => {
     if (!this.state.stars) {
       alert("You must enter stars");
@@ -34,7 +37,7 @@ class MovieDetails extends Component {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token 39ab2d4b6d017fad9681e241557a4a1573542915",
+          Authorization: `Token ${this.state.token}`,
         },
 
         body: JSON.stringify({
@@ -52,29 +55,39 @@ class MovieDetails extends Component {
     });
     console.log("stars", this.state.stars);
   };
+
+/*
+componentDidMount() will run after the render method and which ever movie user selected ,
+fetch it from the server and store it in movieDetails.
+*/
   componentDidMount() {
+    console.log(this.state.token)
     fetch(`http://127.0.0.1:8000/api/movies/${this.props.match.params.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Token 6622e38254ac5510944a93a53ae3e5d9f6bf5c17",
+        // Authorization: "Token 6622e38254ac5510944a93a53ae3e5d9f6bf5c17",
       },
     })
       .then((resp) => resp.json())
       .then((res) => this.setState({ movieDetail: res }))
       .catch((error) => console.log(error));
   }
+
+
+  // This method for handling the stars
   handlerStarsChange = (event) => {
     this.setState({ stars: event.target.value });
     console.log(this.state.stars);
   };
 
   render() {
-    // console.log(this.props.match.params.id);
-    // console.log(this.state.movieDetail);
-    const movie = this.state.movieDetail;
+    const movie = this.state.movieDetail;   
     return (
+      
       <Container className="mt-2">
+        {/* Here we create card for store the movie poster on left side and all the movie details on
+        the right side of the card. */}
         <Card>
           <Card.Body>
             <Row>
@@ -158,6 +171,9 @@ class MovieDetails extends Component {
                     {movie.no_of_ratings}
                   </span>
                 </Card.Text>
+
+                {/* if user want to know about movie then they can clicked here.
+                and it redirects to the main imdb site. */}
                 <Card.Link href={`https://www.imdb.com/title/${movie.imdbID}/`}>
                   More details
                 </Card.Link>
@@ -184,5 +200,5 @@ class MovieDetails extends Component {
     );
   }
 }
-
-export default MovieDetails;
+// for using cookies we have to export component like this.
+export default withCookies(MovieDetails);

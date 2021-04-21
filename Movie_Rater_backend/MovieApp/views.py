@@ -13,10 +13,15 @@ from rest_framework.response import Response
 class MovieViewset(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
- 
-    @action(detail=True, methods=['POST'])
-    def rateMovie(self, request, pk=None):
-        print("after", pk)
+
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
+
+    # print("before")
+
+    @action(detail=True,methods=['POST'])
+    def rateMovie(self,request,pk=None):
+        print("after",pk)
 
         if 'stars' in request.data:
             movie = Movie.objects.get(id=pk)

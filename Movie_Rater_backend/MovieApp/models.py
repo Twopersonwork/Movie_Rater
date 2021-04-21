@@ -28,7 +28,7 @@ class Movie(models.Model):
 
 
     def no_of_ratings(self):
-        ratings =Rating.objects.filter(movie=self)
+        ratings = Rating.objects.filter(movie=self)
         print(len(ratings))
         return len(ratings)
 

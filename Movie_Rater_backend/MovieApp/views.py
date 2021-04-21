@@ -12,9 +12,8 @@ from rest_framework.decorators import action
 class MovieViewset(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    permission_classes = (AllowAny,)
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
 
     # print("before")
     @action(detail=True,methods=['POST'])

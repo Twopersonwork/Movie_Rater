@@ -8,8 +8,12 @@ class MovieContainer extends Component {
     return (
       <div key={movie.id} className="breakpoint">
         <Card className="m-2">
-          <Link to={`/${movie.id}`}>
-            <Card.Img variant="top" src={movie.Poster} style={{maxWidth:"250px",maxHeight:"370px",}}/>
+          <Link to={`/movies/${movie.id}`}>
+            <Card.Img
+              variant="top"
+              src={movie.Poster}
+              style={{ maxWidth: "250px", maxHeight: "370px" }}
+            />
           </Link>
         </Card>
       </div>

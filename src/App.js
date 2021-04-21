@@ -5,8 +5,10 @@ import Header from "./components/Header";
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MovieList from "./components/MovieList";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import MovieDetails from "./components/MovieDetails";
+import login from "./components/login";
+import { CookiesProvider, withCookies } from "react-cookie";
 
 class App extends Component {
   constructor(props) {
@@ -29,17 +31,28 @@ class App extends Component {
         <div className="App">
           <Header onChange={this.onChange} />
           <Switch>
+            <Route exact path="/login" component={login} />
+
             <Route
-              path="/"
               exact
-              component={MovieList}
-              searchkeyword={this.state.searchkeyword}
+              path="/"
+              component={() => (
+                <MovieList searchkeyword={this.state.searchkeyword} />
+              )}
             />
-            <Route path="/:id" component={MovieDetails} />
+            <Route
+              exact
+              path="/movies"
+              component={() => (
+                <MovieList searchkeyword={this.state.searchkeyword} />
+              )}
+            />
+
+            <Route exact path="/movies/:id" component={MovieDetails} />
           </Switch>
         </div>
       </BrowserRouter>
     );
   }
 }
-export default App;
+export default withCookies(App);

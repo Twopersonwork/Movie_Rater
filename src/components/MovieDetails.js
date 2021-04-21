@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
+import { withCookies } from "react-cookie";
 
 class MovieDetails extends Component {
   constructor(props) {
@@ -19,59 +20,75 @@ class MovieDetails extends Component {
 
     this.state = {
       movieDetail: {},
-      stars: "",
+      token: this.props.cookies.get("auth-token"),
+      colored: -1,
     };
   }
 
-  onSubmit = (e) => {
-    if (!this.state.stars) {
-      alert("You must enter stars");
-      return;
-    }
-    fetch(
-      `http://127.0.0.1:8000/api/movies/${this.props.match.params.id}/rateMovie/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token 39ab2d4b6d017fad9681e241557a4a1573542915",
-        },
+  onSubmit = (stars) => (e) => {
+    // if (!this.state.stars) {
+    //   alert("You must enter stars");
+    //   return;
+    // }
+    if (this.state.token) {
+      console.log(stars);
 
-        body: JSON.stringify({
-          stars: this.state.stars,
-          movie: this.props.match.params.id,
-          user: 0,
-        }),
-      }
-    )
-      .then((resp) => resp.json())
-      .catch((error) => console.log(error));
-    e.preventDefault();
-    this.setState({
-      stars: "",
-    });
-    console.log("stars", this.state.stars);
+      fetch(
+        `http://127.0.0.1:8000/api/movies/${this.props.match.params.id}/rateMovie/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${this.state.token}`,
+          },
+
+          body: JSON.stringify({
+            stars: stars + 1,
+          }),
+        }
+      )
+        .then((resp) => resp.json())
+        .then(console.log("stars", this.state.stars))
+        .catch((error) => console.log(error));
+    }
+
+    // e.preventDefault();
+    // this.setState({
+    //   stars: "",
+    // });
+    // console.log("stars", this.state.stars);
+    // console.log("token", this.state.token);
   };
   componentDidMount() {
     fetch(`http://127.0.0.1:8000/api/movies/${this.props.match.params.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Token 6622e38254ac5510944a93a53ae3e5d9f6bf5c17",
+        // Authorization: `Token ${this.state.token}`,
       },
     })
       .then((resp) => resp.json())
       .then((res) => this.setState({ movieDetail: res }))
       .catch((error) => console.log(error));
   }
-  handlerStarsChange = (event) => {
-    this.setState({ stars: event.target.value });
-    console.log(this.state.stars);
+
+  onhighlight = (high) => () => {
+    if (high !== -1) {
+      this.setState({
+        stars: high,
+      });
+    } else {
+      this.setState({
+        stars: 0,
+      });
+    }
+    this.setState({
+      colored: high,
+    });
   };
 
   render() {
-    // console.log(this.props.match.params.id);
-    // console.log(this.state.movieDetail);
+    console.log(this.state.stars);
     const movie = this.state.movieDetail;
     return (
       <Container className="mt-2">
@@ -158,24 +175,36 @@ class MovieDetails extends Component {
                     {movie.no_of_ratings}
                   </span>
                 </Card.Text>
+                <Card.Text>
+                  Avg Ratings:
+                  <span className="text-muted forText">
+                    {movie.avg_ratings}
+                  </span>
+                </Card.Text>
+                <Card.Text>
+                  Rate this:
+                  <span className="mb-2 text-muted forText">
+                    {[...Array(5)].map((e, i) => {
+                      return (
+                        <FaStar
+                          size={28}
+                          key={i}
+                          style={
+                            this.state.colored > i - 1
+                              ? { color: "orange" }
+                              : { color: "" }
+                          }
+                          onMouseOver={this.onhighlight(i)}
+                          onMouseLeave={this.onhighlight(-1)}
+                          onClick={this.onSubmit(i)}
+                        />
+                      );
+                    })}
+                  </span>
+                </Card.Text>
                 <Card.Link href={`https://www.imdb.com/title/${movie.imdbID}/`}>
                   More details
                 </Card.Link>
-                <Form onSubmit={this.onSubmit}>
-                  <Form.Control
-                    placeholder="Stars"
-                    onChange={this.handlerStarsChange}
-                  />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-
-                  <Button variant="primary" type="submit">
-                    Submit
-                  </Button>
-                </Form>
               </Col>
             </Row>
           </Card.Body>
@@ -185,4 +214,4 @@ class MovieDetails extends Component {
   }
 }
 
-export default MovieDetails;
+export default withCookies(MovieDetails);

@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MovieList from "./components/MovieList";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import MovieDetails from "./components/MovieDetails";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
@@ -37,13 +37,12 @@ class App extends Component {
           <Switch>
             {/* This is main (home) route in which all the movies will diasplay. */}
             <Route
-              exact
               path="/"
+              exact
               component={() => (
                 <MovieList searchkeyword={this.state.searchkeyword} />
               )}
-            />
-
+            ></Route>
             {/* This is same as home router. But only path changes */}
             <Route
               exact

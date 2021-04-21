@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/prachi/workspace/Movie_Rater/Movie_Rater_backend/venv"
+VIRTUAL_ENV="/home/malav/workspace/Movie_Rater/Movie_Rater_backend/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

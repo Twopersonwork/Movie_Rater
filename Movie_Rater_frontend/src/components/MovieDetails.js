@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  Card,
-  Col,
-  Row,
-  Container,
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Card, Col, Row, Container, Form, Button } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { withCookies } from "react-cookie";
 
@@ -15,53 +8,55 @@ class MovieDetails extends Component {
     super(props);
 
     this.state = {
-      movieDetail: {},    //store the movieDetails for particluar movies
-      stars: "",          //store the stars which user gives.
-      token:this.props.cookies.get("auth-token"),   //get token form particular users from cookies.
+      movieDetail: {},
+      token: this.props.cookies.get("auth-token"),
+      colored: -1,
+      nothing: false,
+      avg_rating: "",
+      no_of_ratings: "",
     };
   }
 
-  /*
-    This is method execute when user give stars on particular movie and then click submit,
-    so this method will first check that is user logged in ? if not then redirects to the login page.
-    and if user is logged in then for that particular user can give stars or update stars on any movies.
-  */
-  onSubmit = (e) => {
-    if (!this.state.stars) {
-      alert("You must enter stars");
-      return;
-    }
-    fetch(
-      `http://127.0.0.1:8000/api/movies/${this.props.match.params.id}/rateMovie/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${this.state.token}`,
-        },
+  onSubmit = (stars) => (e) => {
+    if (this.state.token) {
+      console.log(stars);
 
-        body: JSON.stringify({
-          stars: this.state.stars,
-          movie: this.props.match.params.id,
-          user: 0,
-        }),
-      }
-    )
-      .then((resp) => resp.json())
-      .catch((error) => console.log(error));
-    e.preventDefault();
-    this.setState({
-      stars: "",
-    });
-    console.log("stars", this.state.stars);
+      fetch(
+        `http://127.0.0.1:8000/api/movies/${this.props.match.params.id}/rateMovie/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${this.state.token}`,
+          },
+
+          body: JSON.stringify({
+            stars: stars + 1,
+          }),
+        }
+      )
+        .then((resp) => resp.json())
+        .then(
+          this.setState({ nothing: !this.state.nothing }),
+          console.log(this.state.nothing)
+        )
+        .catch((error) => console.log(error));
+    }
+
+    // e.preventDefault();
+    // this.setState({
+    //   stars: "",
+    // });
+    // console.log("stars", this.state.stars);
+    // console.log("token", this.state.token);
   };
 
-/*
+  /*
 componentDidMount() will run after the render method and which ever movie user selected ,
 fetch it from the server and store it in movieDetails.
 */
   componentDidMount() {
-    console.log(this.state.token)
+    console.log("hello");
     fetch(`http://127.0.0.1:8000/api/movies/${this.props.match.params.id}`, {
       method: "GET",
       headers: {
@@ -70,21 +65,36 @@ fetch it from the server and store it in movieDetails.
       },
     })
       .then((resp) => resp.json())
-      .then((res) => this.setState({ movieDetail: res }))
+      .then((res) =>
+        this.setState({
+          movieDetail: res,
+          no_of_ratings: res.no_of_ratings,
+          avg_rating: res.avg_rating,
+        })
+      )
       .catch((error) => console.log(error));
   }
 
-
-  // This method for handling the stars
-  handlerStarsChange = (event) => {
-    this.setState({ stars: event.target.value });
-    console.log(this.state.stars);
+  onhighlight = (high) => () => {
+    if (high !== -1) {
+      this.setState({
+        stars: high,
+      });
+    } else {
+      this.setState({
+        stars: 0,
+      });
+    }
+    this.setState({
+      colored: high,
+    });
   };
 
   render() {
-    const movie = this.state.movieDetail;   
+    console.log(this.state.stars);
+    console.log("wohooooo run");
+    const movie = this.state.movieDetail;
     return (
-      
       <Container className="mt-2">
         {/* Here we create card for store the movie poster on left side and all the movie details on
         the right side of the card. */}
@@ -168,30 +178,39 @@ fetch it from the server and store it in movieDetails.
                 <Card.Text>
                   Ratings:
                   <span className="text-muted forText">
-                    {movie.no_of_ratings}
+                    {this.state.no_of_ratings}
                   </span>
                 </Card.Text>
-
-                {/* if user want to know about movie then they can clicked here.
-                and it redirects to the main imdb site. */}
+                <Card.Text>
+                  Avg Ratings:
+                  <span className="text-muted forText">
+                    {this.state.avg_rating}
+                  </span>
+                </Card.Text>
+                <Card.Text>
+                  Rate this:
+                  <span className="mb-2 text-muted forText">
+                    {[...Array(5)].map((e, i) => {
+                      return (
+                        <FaStar
+                          size={32}
+                          key={i}
+                          style={
+                            this.state.colored > i - 1
+                              ? { color: "orange" }
+                              : { color: "" }
+                          }
+                          onMouseOver={this.onhighlight(i)}
+                          onMouseLeave={this.onhighlight(-1)}
+                          onClick={this.onSubmit(i)}
+                        />
+                      );
+                    })}
+                  </span>
+                </Card.Text>
                 <Card.Link href={`https://www.imdb.com/title/${movie.imdbID}/`}>
                   More details
                 </Card.Link>
-                <Form onSubmit={this.onSubmit}>
-                  <Form.Control
-                    placeholder="Stars"
-                    onChange={this.handlerStarsChange}
-                  />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-
-                  <Button variant="primary" type="submit">
-                    Submit
-                  </Button>
-                </Form>
               </Col>
             </Row>
           </Card.Body>

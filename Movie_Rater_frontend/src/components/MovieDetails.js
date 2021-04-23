@@ -46,13 +46,16 @@ fetch it from the server and store it in movieDetails.
 
   fetch_data() {
     console.log("hello");
-    fetch(`${process.env.REACT_APP_API_URL}/api/movies/${this.props.match.params.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        // Authorization: "Token 6622e38254ac5510944a93a53ae3e5d9f6bf5c17",
-      },
-    })
+    fetch(
+      `${process.env.REACT_APP_API_URL}/api/movies/${this.props.match.params.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: "Token 6622e38254ac5510944a93a53ae3e5d9f6bf5c17",
+        },
+      }
+    )
       .then((resp) => resp.json())
       .then((res) =>
         this.setState({
@@ -76,20 +79,11 @@ fetch it from the server and store it in movieDetails.
   // so the fetch data will be called every time the
   // states no_of_ratings and avg_rating will be changed
   // and it will be shown w/o refreshing the current page.
-  componentDidUpdate(){
-    this.fetch_data()
+  componentDidUpdate() {
+    this.fetch_data();
   }
 
   onhighlight = (high) => () => {
-    if (high !== -1) {
-      this.setState({
-        stars: high,
-      });
-    } else {
-      this.setState({
-        stars: 0,
-      });
-    }
     this.setState({
       colored: high,
     });
@@ -211,6 +205,7 @@ fetch it from the server and store it in movieDetails.
                           }
                           onMouseOver={this.onhighlight(i)}
                           onMouseLeave={this.onhighlight(-1)}
+                          // onClick={this.onSubmit(i)
                           onClick={this.onSubmit(i)}
                         />
                       );

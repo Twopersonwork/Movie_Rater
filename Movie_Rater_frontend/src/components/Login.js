@@ -15,15 +15,16 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      credentials: {   // this is for store the user credentials like username and password
+      credentials: {
+        // this is for store the user credentials like username and password
         username: "",
         password: "",
       },
-      errorMsg: "",       // store the errorMsg if any
-      errorNum: "",       // store the errorNum if any
-      showerror: false,   // if error present then only this will become true
+      errorMsg: "", // store the errorMsg if any
+      errorNum: "", // store the errorNum if any
+      showerror: false, // if error present then only this will become true
     };
-  } 
+  }
 
   // this method execute when user typed their username and email for storeing into creadentials
 
@@ -34,14 +35,13 @@ class Login extends Component {
     // console.log(this.state.credentials);
   };
 
-
   /* 
   this method will run when user clicked on login.
   it will get the token from the server for particular user 
   ,so Now user have access to rate the movies.
   and also set token in cookies.
 
-  */ 
+  */
   login = (event) => {
     this.setState({ showerror: true });
     fetch(`${process.env.REACT_APP_API_URL}/auth/`, {
@@ -50,9 +50,11 @@ class Login extends Component {
       body: JSON.stringify(this.state.credentials),
     })
       .then((resp) => resp.json())
+
       .then((res) => {
         if (res.token) {
           this.props.cookies.set("auth-token", res.token);
+
           window.location.href = "/";
         } else {
           this.setState({ errorMsg: res.error, errorNum: res.msg });
@@ -70,9 +72,8 @@ class Login extends Component {
           <form className={form} onSubmit={this.login}>
             <Grid container spacing={2} style={{ marginTop: "40%" }}>
               <Grid item xs={12}>
-
                 {/* This two conditions for showing the error messgae */}
-                {this.state.showerror && this.state.errorNum == 2 ? (
+                {this.state.showerror && this.state.errorNum === 2 ? (
                   <Alert
                     variant="danger"
                     onClick={() => this.setState({ showerror: false })}
@@ -81,9 +82,8 @@ class Login extends Component {
                     {this.state.errorMsg}
                   </Alert>
                 ) : null}
-
-               
-                {this.state.showerror && this.state.errorNum == 1 ? (
+            
+                {this.state.showerror && this.state.errorNum === 1 ? (
                   <Alert
                     variant="danger"
                     onClick={() => this.setState({ showerror: false })}
@@ -120,23 +120,22 @@ class Login extends Component {
                 />
               </Grid>
               <Grid item xs={12}>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={submit}
-              >
-                Log in
-              </Button>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={submit}
+                >
+                  Log in
+                </Button>
+              </Grid>
             </Grid>
-            </Grid>
-           
 
             <Grid container justify="center" className="mt-3">
               <Grid item>
                 {/* Route to the signup page */}
-                <Link to={"/signup"}>create an account? Sign in</Link>  
+                <Link to={"/signup"}>create an account? Sign in</Link>
               </Grid>
             </Grid>
           </form>

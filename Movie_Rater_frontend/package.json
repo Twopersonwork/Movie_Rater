@@ -4,7 +4,11 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.3",
+<<<<<<< HEAD
     "@material-ui/lab": "*",
+=======
+    "@material-ui/icons": "^4.11.2",
+>>>>>>> 61d09b8a096bc697e8d33623d30eeb395509b68e
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
@@ -13,6 +17,7 @@
     "cors": "^2.8.5",
     "fuse.js": "^6.4.6",
     "jquery": "^3.6.0",
+    "material-ui-search-bar": "^1.0.0",
     "popper.js": "^1.16.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",

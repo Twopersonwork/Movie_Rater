@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-f#lhx!j$d%h90j%i(+hqjq30(xiihe(3bx0pbij#*ud4(yicuf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
 
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'MovieApp',
     'import_export',
     'rest_framework.authtoken',
     'corsheaders',
+    'MovieApp',
 ]
 
 REST_FRAMEWORK = {
@@ -65,8 +65,8 @@ MIDDLEWARE = [
 CORS_ORIGIN_WHITELIST=[
     'http://localhost:3000',
     'http://localhost:19006',
-    'https://hb-movie-react.herokuapp.com',
-    'http://hb-movie-react.herokuapp.com',
+    'https://hbp-movie-react.herokuapp.com',
+    'http://hbp-movie-react.herokuapp.com',
 ]
 
 ROOT_URLCONF = 'Movie_Rater.urls'
@@ -100,9 +100,19 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': '556232119',
         'HOST': '127.0.0.1',
-        'PORT': '5432',
-    },
+    }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'moviedb',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     },
+# }
 
 # DATABASES = {
 #     'default': {

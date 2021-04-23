@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, FormControl, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import SearchIcon from "@material-ui/icons/Search";
 
 class Search extends Component {
   render() {
@@ -8,6 +9,7 @@ class Search extends Component {
     return (
       <div>
         {/* Here simple search form */}
+
         <Form inline>
           <FormControl
             type="text"
@@ -15,9 +17,9 @@ class Search extends Component {
             className="mr-sm-2"
             onChange={onChange}
           />
-          <Link to={'/'}>
+          <Link to={"/"}>
             {/* when you clicked on search button it redirects to the main page. */}
-            <Button variant="outline-success">Search</Button>
+            <SearchIcon variant="outline-success">Search</SearchIcon>
           </Link>
         </Form>
       </div>

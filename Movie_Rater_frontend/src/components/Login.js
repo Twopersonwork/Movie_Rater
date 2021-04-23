@@ -50,9 +50,11 @@ class Login extends Component {
       body: JSON.stringify(this.state.credentials),
     })
       .then((resp) => resp.json())
+
       .then((res) => {
         if (res.token) {
           this.props.cookies.set("auth-token", res.token);
+
           window.location.href = "/";
         } else {
           this.setState({ errorMsg: res.error, errorNum: res.msg });

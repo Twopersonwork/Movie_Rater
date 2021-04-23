@@ -25,12 +25,8 @@ SECRET_KEY = 'django-insecure-f#lhx!j$d%h90j%i(+hqjq30(xiihe(3bx0pbij#*ud4(yicuf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-<<<<<<< HEAD
-ALLOWED_HOSTS = ['127.0.0.1','localhost','http://localhost:3000']
-=======
-ALLOWED_HOSTS = ['*']
->>>>>>> 7d063fcded69bd6d2e4794baf801b884ecbcccb9
 
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -42,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'MovieApp',
     'import_export',
     'rest_framework.authtoken',
     'corsheaders',
+    'MovieApp',
 ]
 
 REST_FRAMEWORK = {
@@ -69,8 +65,8 @@ MIDDLEWARE = [
 CORS_ORIGIN_WHITELIST=[
     'http://localhost:3000',
     'http://localhost:19006',
-    'https://hb-movie-react.herokuapp.com',
-    'http://hb-movie-react.herokuapp.com',
+    'https://hbp-movie-react.herokuapp.com',
+    'http://hbp-movie-react.herokuapp.com',
 ]
 
 ROOT_URLCONF = 'Movie_Rater.urls'
@@ -96,32 +92,25 @@ WSGI_APPLICATION = 'Movie_Rater.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-#
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'moviedb',
 #         'USER': 'postgres',
-#         'PASSWORD': '556232119',
+#         'PASSWORD': '123456',
 #         'HOST': '127.0.0.1',
 #         'PORT': '5432',
 #     },
 # }
-#
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-<<<<<<< HEAD
-        'NAME': 'moviedb',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
-=======
-        'NAME': 'de14kodult5i6t',
-        'USER': 'gmxhpxbvbepiwb',
-        'PASSWORD': 'b0bda6036d6b3ed3df23b17d8c972cb91965cd56d9874cf5e7caa5e52f6b82fa',
-        'HOST': 'ec2-3-212-75-25.compute-1.amazonaws.com',
->>>>>>> 7d063fcded69bd6d2e4794baf801b884ecbcccb9
+        'NAME': 'd76p6vsq5e59ik',
+        'USER': 'mtmdnnxosqjiof',
+        'PASSWORD': '4cccc326368e350874a2c40f396ea4bd38a0494ea6baf3f7722fbc8296ce3461',
+        'HOST': 'ec2-54-224-120-186.compute-1.amazonaws.com',
         'PORT': '5432',
     },
 }

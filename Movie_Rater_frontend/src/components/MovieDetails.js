@@ -15,16 +15,8 @@ class MovieDetails extends Component {
       no_of_ratings: "",
     };
   }
-  // forceUpdate = () => {
-  //   window.location.reload(false);
-  // };
-  // chngStates =()=>{
-  //   this.setState({
-  //     no_of_ratings:
-  //   })
-  // }
+
   onSubmit = (stars) => (e) => {
-    this.forceUpdate();
     if (this.state.token) {
       console.log(stars);
 

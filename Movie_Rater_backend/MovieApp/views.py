@@ -38,7 +38,7 @@ class MovieViewset(viewsets.ModelViewSet):
                 rating.save()
 
                 serializer = RatingSerializer(rating, many=False)
-                print(serializer.data)
+                # print(serializer.data)
                 response = {'message': 'update', 'result': serializer.data}
                 return Response(response, status=status.HTTP_200_OK)
 

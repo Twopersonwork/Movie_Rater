@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-f#lhx!j$d%h90j%i(+hqjq30(xiihe(3bx0pbij#*ud4(yicuf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','http://localhost:3000']
 
 
 # Application definition
@@ -100,7 +100,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'moviedb',
         'USER': 'postgres',
-        'PASSWORD': '556232119',
+        'PASSWORD': '123456',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     },

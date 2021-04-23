@@ -16,15 +16,15 @@ class Movie(models.Model):
     Runtime=models.CharField(max_length=15)
     imdbRating = models.FloatField()
     Genre=models.CharField(max_length=100)
-    Language=models.CharField(max_length=50)
+    Language=models.CharField(max_length=100)
     Director=models.CharField(max_length=100)
-    Released= models.CharField(max_length=20)
+    Released= models.CharField(max_length=50)
     Awards=models.CharField(max_length=100)
-    Type=models.CharField(max_length=20)
+    Type=models.CharField(max_length=50)
     Writer=models.CharField(max_length=300)
     imdbVotes=models.CharField(max_length=15)
-    Country=models.CharField(max_length=20)
-    Box_office=models.CharField(max_length=20)
+    Country=models.CharField(max_length=50)
+    Box_office=models.CharField(max_length=50)
 
 
     def no_of_ratings(self):

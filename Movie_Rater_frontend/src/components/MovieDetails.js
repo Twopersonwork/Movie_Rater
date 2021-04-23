@@ -16,8 +16,16 @@ class MovieDetails extends Component {
       no_of_ratings: "",
     };
   }
-
+  // forceUpdate = () => {
+  //   window.location.reload(false);
+  // };
+  // chngStates =()=>{
+  //   this.setState({
+  //     no_of_ratings:
+  //   })
+  // }
   onSubmit = (stars) => (e) => {
+    this.forceUpdate();
     if (this.state.token) {
       console.log(stars);
 
@@ -36,10 +44,15 @@ class MovieDetails extends Component {
         }
       )
         .then((resp) => resp.json())
-        .then(
-          this.setState({ nothing: !this.state.nothing }),
-          console.log(this.state.nothing)
-        )
+        // .then((res) =>
+        //   // this.setState(
+        //   //   {
+        //   //     no_of_ratings: this.props.match.no_of_ratings,
+        //   //     avg_rating: this.props.match.avg_rating,
+        //   //   },
+        //   //   console.log("res", res)
+        //   // )
+        // )
         .catch((error) => console.log(error));
     }
 
@@ -55,7 +68,8 @@ class MovieDetails extends Component {
 componentDidMount() will run after the render method and which ever movie user selected ,
 fetch it from the server and store it in movieDetails.
 */
-  componentDidMount() {
+
+  fetch_data() {
     console.log("hello");
     fetch(`http://127.0.0.1:8000/api/movies/${this.props.match.params.id}`, {
       method: "GET",
@@ -73,18 +87,25 @@ fetch it from the server and store it in movieDetails.
         })
       )
       .catch((error) => console.log(error));
+    console.log(this.props.match);
+  }
+
+  // this method only runs once in the life cycle
+  // so we can't depend upon this when updated
+  // changes are needed to be shown.
+  componentDidMount() {
+    this.fetch_data();
+  }
+
+  // this method is called every time an update is there
+  // so the fetch data will be called every time the
+  // states no_of_ratings and avg_rating will be changed
+  // and it will be shown w/o refreshing the current page.
+  componentDidUpdate() {
+    this.fetch_data();
   }
 
   onhighlight = (high) => () => {
-    if (high !== -1) {
-      this.setState({
-        stars: high,
-      });
-    } else {
-      this.setState({
-        stars: 0,
-      });
-    }
     this.setState({
       colored: high,
     });
@@ -202,6 +223,7 @@ fetch it from the server and store it in movieDetails.
                           }
                           onMouseOver={this.onhighlight(i)}
                           onMouseLeave={this.onhighlight(-1)}
+                          // onClick={this.onSubmit(i)
                           onClick={this.onSubmit(i)}
                         />
                       );

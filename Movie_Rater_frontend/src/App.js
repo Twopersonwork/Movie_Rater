@@ -8,7 +8,6 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import MovieDetails from "./components/MovieDetails";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
-import SearchNav from "./components/SearchNav";
 
 class App extends Component {
   constructor(props) {

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Form, FormControl, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
 import SearchIcon from "@material-ui/icons/Search";
 
 class Search extends Component {

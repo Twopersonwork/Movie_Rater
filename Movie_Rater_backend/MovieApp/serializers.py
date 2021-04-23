@@ -13,7 +13,7 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = [field.name for field in model._meta.fields]
         fields.append('no_of_ratings')
         fields.append('avg_rating')
-    print(Meta.fields)
+
 
 
 # Here we customizer UserSerializers for creating the new user and generate the token of the new user and

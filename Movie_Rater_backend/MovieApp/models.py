@@ -18,7 +18,7 @@ class Movie(models.Model):
     Genre=models.CharField(max_length=100)
     Language=models.CharField(max_length=100)
     Director=models.CharField(max_length=100)
-    Released= models.CharField(max_length=50)
+    Released= models.CharField(max_length=60)
     Awards=models.CharField(max_length=100)
     Type=models.CharField(max_length=50)
     Writer=models.CharField(max_length=300)

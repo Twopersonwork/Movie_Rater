@@ -8,10 +8,12 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import MovieDetails from "./components/MovieDetails";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import SearchNav from "./components/SearchNav";
 
 class App extends Component {
   constructor(props) {
     super(props);
+    console.log("constructor is called");
 
     this.state = {
       searchkeyword: "", // this is for store the search keyword
@@ -22,9 +24,12 @@ class App extends Component {
   This method store the search value in search keyword when user search.
    */
   onChange = (e) => {
-    this.setState({
-      searchkeyword: e.target.value,
-    });
+    this.setState(
+      {
+        searchkeyword: e.target.value,
+      },
+      console.log(this.state.searchkeyword)
+    );
   };
 
   render() {
@@ -34,6 +39,7 @@ class App extends Component {
         <div className="App">
           {/* Header component, it calls the onChange method for changing the searchkeyword */}
           <Header onChange={this.onChange} />
+
           <Switch>
             {/* This is main (home) route in which all the movies will diasplay. */}
             <Route
@@ -57,7 +63,7 @@ class App extends Component {
             </Route>
             {/* This component is for login. */}
             <Route exact path="/login">
-              <Login />
+              <Login setLoginPara={this.setLoginPara} />
             </Route>
             {/* This component is used for when user clicked on any movie, now user can see all the
             details of particular movie. */}

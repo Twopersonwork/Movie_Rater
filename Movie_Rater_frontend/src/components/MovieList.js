@@ -19,7 +19,7 @@ class MovieList extends Component {
     if (this.props.searchkeyword.length > 0) {
       this.setState({ search: this.props.searchkeyword });
     }
-    fetch("http://127.0.0.1:8000/api/movies/", {
+    fetch(`${process.env.REACT_APP_API_URL}/api/movies/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

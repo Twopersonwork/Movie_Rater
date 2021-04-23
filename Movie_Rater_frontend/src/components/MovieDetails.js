@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Col, Row, Container, Form, Button } from "react-bootstrap";
+import { Card, Col, Row, Container } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { withCookies } from "react-cookie";
 
@@ -11,7 +11,6 @@ class MovieDetails extends Component {
       movieDetail: {},
       token: this.props.cookies.get("auth-token"),
       colored: -1,
-      nothing: false,
       avg_rating: "",
       no_of_ratings: "",
     };
@@ -22,7 +21,7 @@ class MovieDetails extends Component {
       console.log(stars);
 
       fetch(
-        `http://127.0.0.1:8000/api/movies/${this.props.match.params.id}/rateMovie/`,
+        `${process.env.REACT_APP_API_URL}/api/movies/${this.props.match.params.id}/rateMovie/`,
         {
           method: "POST",
           headers: {
@@ -36,28 +35,18 @@ class MovieDetails extends Component {
         }
       )
         .then((resp) => resp.json())
-        .then(
-          this.setState({ nothing: !this.state.nothing }),
-          console.log(this.state.nothing)
-        )
         .catch((error) => console.log(error));
     }
-
-    // e.preventDefault();
-    // this.setState({
-    //   stars: "",
-    // });
-    // console.log("stars", this.state.stars);
-    // console.log("token", this.state.token);
   };
 
   /*
 componentDidMount() will run after the render method and which ever movie user selected ,
 fetch it from the server and store it in movieDetails.
 */
-  componentDidMount() {
+
+  fetch_data() {
     console.log("hello");
-    fetch(`http://127.0.0.1:8000/api/movies/${this.props.match.params.id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/api/movies/${this.props.match.params.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -73,6 +62,22 @@ fetch it from the server and store it in movieDetails.
         })
       )
       .catch((error) => console.log(error));
+    console.log(this.props.match);
+  }
+
+  // this method only runs once in the life cycle
+  // so we can't depend upon this when updated
+  // changes are needed to be shown.
+  componentDidMount() {
+    this.fetch_data();
+  }
+
+  // this method is called every time an update is there
+  // so the fetch data will be called every time the
+  // states no_of_ratings and avg_rating will be changed
+  // and it will be shown w/o refreshing the current page.
+  componentDidUpdate(){
+    this.fetch_data()
   }
 
   onhighlight = (high) => () => {
@@ -102,7 +107,11 @@ fetch it from the server and store it in movieDetails.
           <Card.Body>
             <Row>
               <Col sm={8} xl lg md>
-                <Card.Img variant="top" src={movie.Poster} />
+                <Card.Img
+                  referrerPolicy="no-referrer"
+                  variant="top"
+                  src={movie.Poster}
+                />
               </Col>
               <Col sm={4} xl lg md>
                 <Card.Text>

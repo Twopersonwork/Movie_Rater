@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Col, Row, Container, Form, Button } from "react-bootstrap";
+import { Card, Col, Row, Container } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { withCookies } from "react-cookie";
 
@@ -11,7 +11,6 @@ class MovieDetails extends Component {
       movieDetail: {},
       token: this.props.cookies.get("auth-token"),
       colored: -1,
-      nothing: false,
       avg_rating: "",
       no_of_ratings: "",
     };
@@ -30,7 +29,7 @@ class MovieDetails extends Component {
       console.log(stars);
 
       fetch(
-        `http://127.0.0.1:8000/api/movies/${this.props.match.params.id}/rateMovie/`,
+        `${process.env.REACT_APP_API_URL}/api/movies/${this.props.match.params.id}/rateMovie/`,
         {
           method: "POST",
           headers: {
@@ -44,24 +43,8 @@ class MovieDetails extends Component {
         }
       )
         .then((resp) => resp.json())
-        // .then((res) =>
-        //   // this.setState(
-        //   //   {
-        //   //     no_of_ratings: this.props.match.no_of_ratings,
-        //   //     avg_rating: this.props.match.avg_rating,
-        //   //   },
-        //   //   console.log("res", res)
-        //   // )
-        // )
         .catch((error) => console.log(error));
     }
-
-    // e.preventDefault();
-    // this.setState({
-    //   stars: "",
-    // });
-    // console.log("stars", this.state.stars);
-    // console.log("token", this.state.token);
   };
 
   /*
@@ -71,13 +54,16 @@ fetch it from the server and store it in movieDetails.
 
   fetch_data() {
     console.log("hello");
-    fetch(`http://127.0.0.1:8000/api/movies/${this.props.match.params.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        // Authorization: "Token 6622e38254ac5510944a93a53ae3e5d9f6bf5c17",
-      },
-    })
+    fetch(
+      `${process.env.REACT_APP_API_URL}/api/movies/${this.props.match.params.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: "Token 6622e38254ac5510944a93a53ae3e5d9f6bf5c17",
+        },
+      }
+    )
       .then((resp) => resp.json())
       .then((res) =>
         this.setState({
@@ -123,7 +109,11 @@ fetch it from the server and store it in movieDetails.
           <Card.Body>
             <Row>
               <Col sm={8} xl lg md>
-                <Card.Img variant="top" src={movie.Poster} />
+                <Card.Img
+                  referrerPolicy="no-referrer"
+                  variant="top"
+                  src={movie.Poster}
+                />
               </Col>
               <Col sm={4} xl lg md>
                 <Card.Text>

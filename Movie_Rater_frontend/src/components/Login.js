@@ -44,7 +44,7 @@ class Login extends Component {
   */
   login = (event) => {
     this.setState({ showerror: true });
-    fetch("http://127.0.0.1:8000/auth/", {
+    fetch(`${process.env.REACT_APP_API_URL}/auth/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(this.state.credentials),

@@ -2,15 +2,21 @@ import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import MovieContainer from "./MovieContainer";
 import Fuse from "fuse.js";
+import { Pagination } from "@material-ui/lab";
 
 class MovieList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      movies: [],        // for store the movies when we fetch from the server
-      matches: [],      // when we search movie, so result of all movies store in here
-      search: "",       // for search keyword
+      movies: [], // for store the movies when we fetch from the server
+      matches: [], // when we search movie, so result of all movies store in here
+      search: "", // for search keyword
+      offset: 0,
+      currentMovies: [],
+      perpage: 20,
+      currentPage: 0,
+      pageCount: null,
     };
   }
 
@@ -23,30 +29,67 @@ class MovieList extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: "Token 412dd490c43ad5534dd2e1e38a92f9c32d59d62c", 
       },
     })
       .then((resp) => resp.json())
-      .then((res) =>
-        this.setState({ movies: res }, function () {
+      .then((res) => {
+        var slice = res.slice(
+          this.state.offset,
+          this.state.offset + this.state.perpage
+        );
 
-          // This function give us better search functionality
-          const fuse = new Fuse(this.state.movies, {
-            keys: ["Title"],
-          });
-          const result = fuse.search(this.state.search);
-
-          if (!result.length) {
-            this.setState([]);
-          } else {
-            result.forEach(({ item }) => {
-              this.state.matches.push(item);
+        this.setState(
+          {
+            movies: res,
+            currentMovies: slice,
+            pageCount: Math.ceil(res.length / this.state.perpage),
+          },
+          function () {
+            // This function give us better search functionality
+            const fuse = new Fuse(this.state.movies, {
+              keys: ["Title"],
             });
-            this.setState({ movies: this.state.matches });
+            const result = fuse.search(this.state.search);
+
+            if (!result.length) {
+              this.setState([]);
+            } else {
+              result.forEach(({ item }) => {
+                this.state.matches.push(item);
+              });
+              this.setState({ currentMovies: this.state.matches });
+            }
           }
-        })
-      )
+        );
+      })
       .catch((error) => console.log(error));
+  }
+
+  handlePageClick = (e, v) => {
+    const offset = (v - 1) * this.state.perpage;
+
+    this.setState(
+      {
+        currentPage: v,
+        offset: offset,
+      },
+      () => {
+        this.loadmoredata();
+      }
+    );
+  };
+
+  loadmoredata() {
+    const data = this.state.movies;
+
+    const slice = data.slice(
+      this.state.offset,
+      this.state.offset + this.state.perpage
+    );
+    this.setState({
+      pageCount: Math.ceil(data.length / this.state.perpage),
+      currentMovies: slice,
+    });
   }
 
   render() {
@@ -54,9 +97,33 @@ class MovieList extends Component {
       <div>
         <Container className="pl-3">
           {/* pass one by one movie for displaying on to the main page */}
-          {this.state.movies.map((movie) => (
+          {this.state.currentMovies.map((movie) => (
             <MovieContainer key={movie.id} movie={movie} />
           ))}
+          <Pagination
+            color="primary"
+            style={{ marginTop: "10%", marginBottom: "10%" }}
+            count={this.state.pageCount}
+            onChange={this.handlePageClick}
+            page={this.state.currentPage}
+            showFirstButton={true}
+            showLastButton={true}
+          />
+          {/* <ReactPaginate
+            initialPage={1}
+            previousLabel={"prev"}
+            nextLabel={"next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={1}
+            onPageChange={this.handlePageClick}
+            containerClassName={"pagination"}
+            previousLinkClassName={"pagination__link"}
+            nextLinkClassName={"pagination__link"}
+            activeClassName={"pagination__link--active"}
+          /> */}
         </Container>
       </div>
     );

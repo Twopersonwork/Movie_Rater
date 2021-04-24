@@ -28,28 +28,28 @@ class Header extends Component {
         <Navbar fixed="top" bg="light" expand="lg">
           <Navbar.Brand href="/">Movie Rater</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
+          <Navbar.Collapse>
+            <Nav className="mr-auto flex-column">
               <Nav.Link href="/">
                 <HomeIcon
                   style={{ fontSize: 32, color: "rgb(124, 167, 215)" }}
                 />
               </Nav.Link>
             </Nav>
-
+            <Nav className="mr-auto">
+              <Search onChange={(e) => this.props.onChange(e)} />
+            </Nav>
             {/* if button clicked then it redirects to the login page */}
 
             {/* In header we have search component. */}
-            <Nav className="mr-auto" style={{ flex: "inline" }}>
-              <Search onChange={(e) => this.props.onChange(e)} />
+            <Nav className="justify-content-end flex-column">
+              <Nav.Link href="#">
+                <AccountCircleIcon
+                  style={{ fontSize: 32, color: "rgb(124, 167, 215)" }}
+                />
+                {/* <span style={{ margin: "10px" }}>{this.props.user}</span> */}
+              </Nav.Link>
             </Nav>
-
-            <Nav.Link href="#">
-              <AccountCircleIcon
-                style={{ fontSize: 32, color: "rgb(124, 167, 215)" }}
-              />
-              <span style={{ margin: "10px" }}>{this.props.user}</span>
-            </Nav.Link>
             {/* {this.props.isLogin ? (
               <Button variant="outline-primary" onClick={this.setParams}>
                 Logout
@@ -71,8 +71,6 @@ class Header extends Component {
             )}
 
             {this.state.isRedirect ? <Redirect href="/" /> : null}
-
-            <Nav></Nav>
           </Navbar.Collapse>
         </Navbar>
       </div>

@@ -6,7 +6,7 @@ import {
   Button,
   Grid,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { withCookies } from "react-cookie";
 import { Alert } from "react-bootstrap";
 
@@ -21,8 +21,9 @@ class Login extends Component {
         password: "",
       },
       errorMsg: "", // store the errorMsg if any
-      errorNum: "", // store the errorNum if any
+      errorNum: 0, // store the errorNum if any
       showerror: false, // if error present then only this will become true
+      isLogin: false,
     };
   }
 
@@ -43,7 +44,6 @@ class Login extends Component {
 
   */
   login = (event) => {
-    this.setState({ showerror: true });
     fetch(`${process.env.REACT_APP_API_URL}/auth/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -54,10 +54,10 @@ class Login extends Component {
       .then((res) => {
         if (res.token) {
           this.props.cookies.set("auth-token", res.token);
-
-          window.location.href = "/";
+          this.setState({ isLogin: true });
         } else {
           this.setState({ errorMsg: res.error, errorNum: res.msg });
+          this.setState({ showerror: true });
         }
       })
       .catch((error) => console.log(error));
@@ -73,7 +73,7 @@ class Login extends Component {
             <Grid container spacing={2} style={{ marginTop: "40%" }}>
               <Grid item xs={12}>
                 {/* This two conditions for showing the error messgae */}
-                {this.state.showerror && this.state.errorNum === 2 ? (
+                {this.state.showerror && this.state.errorNum == 2 ? (
                   <Alert
                     variant="danger"
                     onClick={() => this.setState({ showerror: false })}
@@ -82,8 +82,8 @@ class Login extends Component {
                     {this.state.errorMsg}
                   </Alert>
                 ) : null}
-            
-                {this.state.showerror && this.state.errorNum === 1 ? (
+
+                {this.state.showerror && this.state.errorNum == 1 ? (
                   <Alert
                     variant="danger"
                     onClick={() => this.setState({ showerror: false })}
@@ -92,6 +92,7 @@ class Login extends Component {
                     {this.state.errorMsg}
                   </Alert>
                 ) : null}
+
                 {/* This textfield for username */}
                 <TextField
                   variant="outlined"
@@ -129,6 +130,7 @@ class Login extends Component {
                 >
                   Log in
                 </Button>
+                {this.state.isLogin ? <Redirect to={"/"} /> : null}
               </Grid>
             </Grid>
 

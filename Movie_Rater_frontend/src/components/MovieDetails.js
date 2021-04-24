@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Card, Col, Row, Container } from "react-bootstrap";
+import { Card, Col, Row, Container, Modal, Button } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { withCookies } from "react-cookie";
+import { Link } from "react-router-dom";
 
 class MovieDetails extends Component {
   constructor(props) {
@@ -13,13 +14,14 @@ class MovieDetails extends Component {
       colored: -1,
       avg_rating: "",
       no_of_ratings: "",
+      modalshow: false,
     };
   }
 
   onSubmit = (stars) => (e) => {
-    if (this.state.token) {
-      console.log(stars);
+    console.log(stars);
 
+    if (this.state.token) {
       fetch(
         `${process.env.REACT_APP_API_URL}/api/movies/${this.props.match.params.id}/rateMovie/`,
         {
@@ -36,6 +38,8 @@ class MovieDetails extends Component {
       )
         .then((resp) => resp.json())
         .catch((error) => console.log(error));
+    } else {
+      this.setState({ modalshow: true }); // this is for when user is not authenticate and try to rate movie.
     }
   };
 
@@ -45,7 +49,6 @@ fetch it from the server and store it in movieDetails.
 */
 
   fetch_data() {
-    console.log("hello");
     fetch(
       `${process.env.REACT_APP_API_URL}/api/movies/${this.props.match.params.id}`,
       {
@@ -65,7 +68,6 @@ fetch it from the server and store it in movieDetails.
         })
       )
       .catch((error) => console.log(error));
-    console.log(this.props.match);
   }
 
   // this method only runs once in the life cycle
@@ -90,11 +92,9 @@ fetch it from the server and store it in movieDetails.
   };
 
   render() {
-    console.log(this.state.stars);
-    console.log("wohooooo run");
     const movie = this.state.movieDetail;
     return (
-      <Container className="mt-2">
+      <Container style={{ marginTop: "5%" }}>
         {/* Here we create card for store the movie poster on left side and all the movie details on
         the right side of the card. */}
         <Card>
@@ -205,12 +205,37 @@ fetch it from the server and store it in movieDetails.
                           }
                           onMouseOver={this.onhighlight(i)}
                           onMouseLeave={this.onhighlight(-1)}
-                          // onClick={this.onSubmit(i)
                           onClick={this.onSubmit(i)}
                         />
                       );
                     })}
                   </span>
+                  {this.state.modalshow ? (
+                    // We show dailogue box to the user for Login to rate movie.
+                    <Modal
+                      show={this.state.modalshow}
+                      size="lg"
+                      aria-labelledby="contained-modal-title-vcenter"
+                      centered
+                    >
+                      <Modal.Body className="p-5">
+                        <h4 style={{ textAlign: "center" }}>
+                          You need to Login first for rate this movie.
+                        </h4>
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Link to={"/login"}>
+                          <Button className="primary">Login</Button>
+                        </Link>
+                        <Button
+                          variant="danger"
+                          onClick={() => this.setState({ modalshow: false })}
+                        >
+                          Close
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
+                  ) : null}
                 </Card.Text>
                 <Card.Link href={`https://www.imdb.com/title/${movie.imdbID}/`}>
                   More details

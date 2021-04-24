@@ -1,27 +1,20 @@
 import React, { Component } from "react";
 import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Search from "./Search";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomeIcon from "@material-ui/icons/Home";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { withCookies } from "react-cookie";
 
 class Header extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isRedirect: false,
-    };
+    this.state = {};
   }
 
-  setParams = () => {
-    this.props.setLoginPara(false);
-    this.setState({ isRedirect: !this.state.isRedirect });
-  };
-
   render() {
-    console.log("isLogin from app", this.props.isLogin);
     return (
       // we use bootstrap for NavBar
       <div>
@@ -50,27 +43,23 @@ class Header extends Component {
                 {/* <span style={{ margin: "10px" }}>{this.props.user}</span> */}
               </Nav.Link>
             </Nav>
-            {/* {this.props.isLogin ? (
-              <Button variant="outline-primary" onClick={this.setParams}>
-                Logout
-              </Button>)?this.state.isRedirect?<Redirect href="/"/>:(null)
-            : (
-              <Link to={"/login"}>
-                <Button variant="outline-primary">Login</Button>
-              </Link>
-            )} */}
 
-            {this.props.isLogin ? (
-              <Button variant="outline-primary" onClick={this.setParams}>
-                Logout
-              </Button>
+            {/* Here we just check if user is authenticated or not if not then show Login and if yes then show logout. */}
+            {this.props.cookies.get("auth-token") ? (
+              <Link to={"/"}>
+                <Button
+                  variant="outline-primary"
+                  onClick={() => this.props.cookies.remove("auth-token")}
+                >
+                  Logout
+                </Button>
+              </Link>
             ) : (
               <Link to={"/login"}>
                 <Button variant="outline-primary">Login</Button>
               </Link>
             )}
-
-            {this.state.isRedirect ? <Redirect href="/" /> : null}
+            {/* <Nav></Nav> */}
           </Navbar.Collapse>
         </Navbar>
       </div>
@@ -78,4 +67,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withCookies(Header);

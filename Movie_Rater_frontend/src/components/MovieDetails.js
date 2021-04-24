@@ -85,6 +85,7 @@ fetch it from the server and store it in movieDetails.
     this.fetch_data();
   }
 
+
   onhighlight = (high) => () => {
     this.setState({
       colored: high,
@@ -220,7 +221,7 @@ fetch it from the server and store it in movieDetails.
                     >
                       <Modal.Body className="p-5">
                         <h4 style={{ textAlign: "center" }}>
-                          You need to Login first for rate this movie.
+                          You need to Login first to rate this movie.
                         </h4>
                       </Modal.Body>
                       <Modal.Footer>

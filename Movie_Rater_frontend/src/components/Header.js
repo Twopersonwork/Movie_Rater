@@ -59,7 +59,6 @@ class Header extends Component {
                 <Button variant="outline-primary">Login</Button>
               </Link>
             )}
-            {/* <Nav></Nav> */}
           </Navbar.Collapse>
         </Navbar>
       </div>

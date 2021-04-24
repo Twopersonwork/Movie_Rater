@@ -1,56 +1,63 @@
 .forText {
-    font-size: small;
-    margin-left: 5px;
+  font-size: small;
+  margin-left: 5px;
 }
- 
 
-.breakpoint { /* One column for smartphones */
-    max-width: 100%;
-    display: inline-block;
+.breakpoint {
+  /* One column for smartphones */
+  max-width: 100%;
+  display: inline-block;
+}
+@media (min-width: 200px) {
+  .breakpoint {
+    max-width: 40%;
   }
-  @media (min-width:200px){
-      .breakpoint{
-          max-width: 40%;
-      }
+}
+@media (min-width: 240px) {
+  .breakpoint {
+    max-width: 40%;
   }
-  @media (min-width:240px){
-    .breakpoint{
-        max-width: 40%;
-    }
-  }
+}
 
-  @media (min-width: 420px) { /* Two columns for tablets */
-    .breakpoint {
-      max-width: 30%;
-    }
+@media (min-width: 420px) {
+  /* Two columns for tablets */
+  .breakpoint {
+    max-width: 30%;
   }
-  @media (min-width: 760px) { /* Four columns for large devices */
-    .breakpoint {
-      max-width: 24%;
-    }
+}
+@media (min-width: 760px) {
+  /* Four columns for large devices */
+  .breakpoint {
+    max-width: 24%;
   }
+}
 
-  /* .pagination {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-    cursor: pointer;
+
+/* .dismovie {
+  margin-top: 5%;
+} */
+
+@media (min-width: 200px) {
+  .dismovie {
     margin-top: 10%;
-    margin-bottom: 10%;
   }
-
-  .pagination a {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #6c7ac9;
-    color: #6c7ac9;
+}
+@media (min-width: 240px) {
+  .dismovie {
+    margin-top: 25%;
   }
+}
 
-  .pagination__link {
-    font-weight: bold;
+@media (min-width: 420px) {
+  /* Two columns for tablets */
+  .dismovie {
+    margin-top: 15%;
   }
+}
+@media (min-width: 760px) {
+  /* Four columns for large devices */
+  .dismovie {
+    margin-top: 7%;
+  }
+}
 
-  .pagination__link--active a {
-    color: #fff;
-    background: #6c7ac9;
-  } */

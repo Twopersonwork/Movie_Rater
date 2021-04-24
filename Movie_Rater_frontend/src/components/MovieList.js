@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Grid } from "@material-ui/core";
 import MovieContainer from "./MovieContainer";
 import Fuse from "fuse.js";
 import { Pagination } from "@material-ui/lab";
+import Filter from "./Filter";
 
 class MovieList extends Component {
   constructor(props) {
@@ -106,21 +107,26 @@ class MovieList extends Component {
   render() {
     return (
       <div>
-        <Container className="pl-5" style={{ marginTop: "5%" }}>
+        <Container className="pl-5 dismovie">
           {/* pass one by one movie for displaying on to the main page */}
-          {this.state.currentMovies.map((movie) => (
-            <MovieContainer key={movie.id} movie={movie} />
-          ))}
-          {/* We use Pagination from the material ui */}
-          <Pagination
-            currentPage={this.state.currentPage}
-            color="primary"
-            style={{ marginTop: "10%", marginBottom: "10%" }}
-            count={this.state.pageCount}
-            onChange={this.handlePageClick}
-            showFirstButton={true}
-            showLastButton={true}
-          />
+          <Grid container>
+            <Grid item>{/* <Filter /> */}</Grid>
+            <Grid item>
+              {this.state.currentMovies.map((movie) => (
+                <MovieContainer key={movie.id} movie={movie} />
+              ))}
+              {/* We use Pagination from the material ui */}
+              <Pagination
+                currentPage={this.state.currentPage}
+                color="primary"
+                style={{ marginTop: "10%", marginBottom: "10%" }}
+                count={this.state.pageCount}
+                onChange={this.handlePageClick}
+                showFirstButton={true}
+                showLastButton={true}
+              />
+            </Grid>
+          </Grid>
         </Container>
       </div>
     );

@@ -13,10 +13,10 @@ class MovieList extends Component {
       matches: [], // when we search movie, so result of all movies store in here
       search: "", // for search keyword
       offset: 0,
-      currentMovies: [],
-      perpage: 20,
-      currentPage: 0,
-      pageCount: null,
+      currentMovies: [],       // store movies per page
+      perpage: 20,            // perpage movies
+      currentPage: 0,         // currentPage
+      pageCount: null,        //total page count for all movies
     };
   }
 
@@ -33,6 +33,7 @@ class MovieList extends Component {
     })
       .then((resp) => resp.json())
       .then((res) => {
+        // Here we slicing the all the movies for particular page.
         var slice = res.slice(
           this.state.offset,
           this.state.offset + this.state.perpage
@@ -40,9 +41,9 @@ class MovieList extends Component {
 
         this.setState(
           {
-            movies: res,
-            currentMovies: slice,
-            pageCount: Math.ceil(res.length / this.state.perpage),
+            movies: res,        
+            currentMovies: slice,           //current movies for particular page
+            pageCount: Math.ceil(res.length / this.state.perpage),    
           },
           function () {
             // This function give us better search functionality
@@ -57,13 +58,20 @@ class MovieList extends Component {
               result.forEach(({ item }) => {
                 this.state.matches.push(item);
               });
-              this.setState({ movies: this.state.matches });
+              this.setState({
+                currentMovies: this.state.matches,    //after search current movies
+                movies: this.state.matches,           //movies after search
+                pageCount: Math.ceil(this.state.matches.length / this.state.perpage), // page count after search
+              });
             }
           }
         );
       })
       .catch((error) => console.log(error));
   }
+
+  /*when user click on any particular page this method calls and for particular page load all the movies
+  by calling loadmoredata function*/
 
   handlePageClick = (e, v) => {
     const offset = (v - 1) * this.state.perpage;
@@ -79,6 +87,7 @@ class MovieList extends Component {
     );
   };
 
+  //Here we are doing same as we did in componentDidMount for pagination.
   loadmoredata() {
     const data = this.state.movies;
 
@@ -95,35 +104,21 @@ class MovieList extends Component {
   render() {
     return (
       <div>
-        <Container className="pl-3">
+        <Container className="pl-5" style={{marginTop:"5%"}}>
           {/* pass one by one movie for displaying on to the main page */}
           {this.state.currentMovies.map((movie) => (
             <MovieContainer key={movie.id} movie={movie} />
           ))}
+          {/* We use Pagination from the material ui */}
           <Pagination
+            currentPage={this.state.currentPage}
             color="primary"
             style={{ marginTop: "10%", marginBottom: "10%" }}
             count={this.state.pageCount}
             onChange={this.handlePageClick}
-            page={this.state.currentPage}
             showFirstButton={true}
             showLastButton={true}
           />
-          {/* <ReactPaginate
-            initialPage={1}
-            previousLabel={"prev"}
-            nextLabel={"next"}
-            breakLabel={"..."}
-            breakClassName={"break-me"}
-            pageCount={this.state.pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={1}
-            onPageChange={this.handlePageClick}
-            containerClassName={"pagination"}
-            previousLinkClassName={"pagination__link"}
-            nextLinkClassName={"pagination__link"}
-            activeClassName={"pagination__link--active"}
-          /> */}
         </Container>
       </div>
     );

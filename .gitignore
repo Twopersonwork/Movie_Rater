@@ -1,7 +1,6 @@
 Movie_Rater_frontend/node_modules/*
 Movie_Rater_backend/venv/*
-<<<<<<< HEAD
-=======
 data/*
->>>>>>> 7d063fcded69bd6d2e4794baf801b884ecbcccb9
 Movie_Rater_frontend/.env
+Movie_Rater_backend/.idea/*
+Movie_Rater_backend/MovieApp/migrations/*

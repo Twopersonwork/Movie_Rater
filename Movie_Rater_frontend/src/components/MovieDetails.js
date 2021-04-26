@@ -3,6 +3,7 @@ import { Card, Col, Row, Container, Modal, Button } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { withCookies } from "react-cookie";
 import { Link } from "react-router-dom";
+import RecommendMovie from "./RecommendMovie";
 
 class MovieDetails extends Component {
   constructor(props) {
@@ -84,7 +85,6 @@ fetch it from the server and store it in movieDetails.
   componentDidUpdate() {
     this.fetch_data();
   }
-
 
   onhighlight = (high) => () => {
     this.setState({
@@ -245,6 +245,7 @@ fetch it from the server and store it in movieDetails.
             </Row>
           </Card.Body>
         </Card>
+        <RecommendMovie genre={movie.Genre} />
       </Container>
     );
   }

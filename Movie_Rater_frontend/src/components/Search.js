@@ -1,27 +1,30 @@
 import React, { Component } from "react";
-import { Form, FormControl, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import SearchIcon from "@material-ui/icons/Search";
+import SearchBar from "material-ui-search-bar";
 
 class Search extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: "",
+    };
+  }
+
   render() {
     const { onChange } = this.props;
     return (
       <div>
-        {/* Here simple search form */}
-
-        <Form inline>
-          <FormControl
-            type="text"
-            placeholder="Search"
-            className="mr-sm-2"
-            onChange={onChange}
-          />
-          <Link to={"/"}>
-            {/* when you clicked on search button it redirects to the main page. */}
-            <SearchIcon variant="outline-success">Search</SearchIcon>
-          </Link>
-        </Form>
+        <SearchBar
+          value={this.state.value}
+          onChange={(newValue) =>
+            this.setState({ value: newValue }, () => onChange(this.state.value))
+          }
+          onRequestSearch={() => onChange(this.state.value)}
+          style={{
+            margin: "0 auto",
+            maxWidth: 800,
+          }}
+        />
       </div>
     );
   }

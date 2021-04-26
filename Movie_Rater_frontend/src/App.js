@@ -23,11 +23,9 @@ class App extends Component {
   This method store the search value in search keyword when user search.
    */
   onChange = (e) => {
-    this.setState(
-      {
-        searchkeyword: e.target.value,
-      },
-    );
+    this.setState({
+      searchkeyword: e,
+    });
   };
 
   render() {
@@ -36,7 +34,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           {/* Header component, it calls the onChange method for changing the searchkeyword */}
-          <Header onChange={this.onChange}/>
+          <Header onChange={this.onChange} />
 
           <Switch>
             {/* This is main (home) route in which all the movies will diasplay. */}
@@ -61,7 +59,7 @@ class App extends Component {
             </Route>
             {/* This component is for login. */}
             <Route exact path="/login">
-              <Login/>
+              <Login />
             </Route>
             {/* This component is used for when user clicked on any movie, now user can see all the
             details of particular movie. */}

@@ -36,6 +36,15 @@ class Login extends Component {
     // console.log(this.state.credentials);
   };
 
+  local = () => {
+    if (!this.state.isLogin) {
+      localStorage.setItem(
+        "user",
+        JSON.stringify(this.state.credentials.username)
+      );
+    }
+  };
+
   /* 
   this method will run when user clicked on login.
   it will get the token from the server for particular user 
@@ -43,6 +52,7 @@ class Login extends Component {
   and also set token in cookies.
 
   */
+
   login = (event) => {
     fetch(`${process.env.REACT_APP_API_URL}/auth/`, {
       method: "POST",
@@ -121,16 +131,17 @@ class Login extends Component {
                 />
               </Grid>
               <Grid item xs={12}>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={submit}
-                  >
-                    Log in
-                  </Button>
-                  {this.state.isLogin ? <Redirect to={"/"} /> : null}
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={submit}
+                  onClick={this.local}
+                >
+                  Log in
+                </Button>
+                {this.state.isLogin ? <Redirect to={"/"} /> : null}
               </Grid>
             </Grid>
 

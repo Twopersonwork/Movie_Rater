@@ -14,10 +14,11 @@ class SignUp extends Component {
     super(props);
 
     this.state = {
-      created: false,   // for checking if account is created or not.
-      usernameError: "",   // store the username error
-      emailError: "",     // store the email error
-      credentials: {      // user credentials
+      created: false, // for checking if account is created or not.
+      usernameError: "", // store the username error
+      emailError: "", // store the email error
+      credentials: {
+        // user credentials
         username: "",
         email: "",
         password: "",
@@ -31,7 +32,6 @@ class SignUp extends Component {
     let cred = this.state.credentials;
     cred[event.target.name] = event.target.value;
     this.setState({ credentials: cred });
-    console.log(this.state.credentials);
   };
 
   // when user clicked on signup then this method post the user credentials to the server for creating new user.
@@ -44,11 +44,10 @@ class SignUp extends Component {
     })
       .then((resp) => resp.json())
       .then((res) => {
-
         // This is for checking if user credentials have any errors or not.
         if (res.id) {
           console.log("allfine", res);
-          this.setState({created:true})
+          this.setState({ created: true });
         } else {
           console.log("notfine", res);
           if (res.username) {
@@ -168,6 +167,5 @@ const form = {
   width: "100%",
   marginTop: "3px",
 };
-
 
 export default SignUp;
